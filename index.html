@@ -25,8 +25,8 @@
       font-size: 2rem;
       letter-spacing: 2px;
       border-radius: 8px;
-      background: #ff2188;
-      color: #fff;
+      background: #ffc6ff;
+      color: #000;
       user-select: none;
     }
   </style>
@@ -36,7 +36,7 @@
   <!-- If you want to buy this domain: $100. twitter.com/idrinkcocaola9 -->
   <script>
     const dvd = document.getElementById("dvd");
-    const colors = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "ffc6ff", "fffffc"];
+    const colors = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "ffc6ff"];
 	const fonts = ["sans-serif", "monospace", "cursive", "serif"];
 
     let x = 20;
@@ -46,25 +46,10 @@
     let colorIndex = 0;
 	let fontIndex = 0;
 	
-	function getContrastingColor(hex) {
-	  hex = hex.replace(/^#/, '');
-	  if (hex.length === 3) {
-		hex = hex.split('').map(c => c + c).join('');
-	  }
-	  const r = parseInt(hex.substring(0, 2), 16);
-	  const g = parseInt(hex.substring(2, 4), 16);
-	  const b = parseInt(hex.substring(4, 6), 16);
-
-	  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-
-	  return yiq >= 128 ? '#000000' : '#ffffff';
-	}
-
     function changeColor() {
       colorIndex = (colorIndex + 1) % colors.length;
 	  fontIndex = (fontIndex + 1) % fonts.length;
       dvd.style.backgroundColor = colors[colorIndex];
-	  dvd.style.color = getContrastingColor(colors[colorIndex]);
 	  dvd.style.fontFamily = fonts[fontIndex];
     }
 
