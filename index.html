@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aloofly</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
+    #dvd {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 10px 16px;
+      font-weight: 900;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      border-radius: 8px;
+      background: #ff2188;
+      color: #fff;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="dvd">idrinkcocacola9</div>
+
+  <script>
+    const dvd = document.getElementById("dvd");
+    const colors = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "ffc6ff", "fffffc"];
+	const fonts = ["sans-serif", "monospace", "cursive", "serif"];
+
+    let x = 20;
+    let y = 20;
+    let vx = 3;
+    let vy = 3;
+    let colorIndex = 0;
+	let fontIndex = 0;
+	
+	function getContrastingColor(hex) {
+	  hex = hex.replace(/^#/, '');
+	  if (hex.length === 3) {
+		hex = hex.split('').map(c => c + c).join('');
+	  }
+	  const r = parseInt(hex.substring(0, 2), 16);
+	  const g = parseInt(hex.substring(2, 4), 16);
+	  const b = parseInt(hex.substring(4, 6), 16);
+
+	  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+
+	  return yiq >= 128 ? '#000000' : '#ffffff';
+	}
+
+    function changeColor() {
+      colorIndex = (colorIndex + 1) % colors.length;
+	  fontIndex = (fontIndex + 1) % fonts.length;
+      dvd.style.backgroundColor = colors[colorIndex];
+	  dvd.style.color = getContrastingColor(colors[colorIndex]);
+	  dvd.style.fontFamily = fonts[fontIndex];
+    }
+
+    function animate() {
+      const rect = dvd.getBoundingClientRect();
+      const maxX = window.innerWidth - rect.width;
+      const maxY = window.innerHeight - rect.height;
+
+      x += vx;
+      y += vy;
+
+      let hitEdge = false;
+
+      if (x <= 0) {
+        x = 0;
+        vx = Math.abs(vx);
+        hitEdge = true;
+      } else if (x >= maxX) {
+        x = maxX;
+        vx = -Math.abs(vx);
+        hitEdge = true;
+      }
+
+      if (y <= 0) {
+        y = 0;
+        vy = Math.abs(vy);
+        hitEdge = true;
+      } else if (y >= maxY) {
+        y = maxY;
+        vy = -Math.abs(vy);
+        hitEdge = true;
+      }
+
+      if (hitEdge) {
+        changeColor();
+      }
+
+      dvd.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
